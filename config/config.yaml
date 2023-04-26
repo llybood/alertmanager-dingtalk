@@ -1,0 +1,62 @@
+## Request timeout
+# timeout: 5s
+
+## Uncomment following line in order to write template from scratch (be careful!)
+#no_builtin_template: true
+
+## Customizable templates path
+#templates:
+#  - contrib/templates/legacy/template.tmpl
+
+## You can also override default template using `default_message`
+## The following example to use the 'legacy' template from v0.3.0
+#default_message:
+#  title: '{{ template "legacy.title" . }}'
+#  text: '{{ template "legacy.content" . }}'
+global:
+  notification:
+    channel: webhook
+  rules:
+    escalation: true
+    
+## Targets, previously was known as "profiles"
+notification:
+  # 告警通道配置
+  channels:
+    webhook:
+      url: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxxx
+      # secret for signature
+      secret: SEC000000000000000000000
+    webhook2:
+      url: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxxx
+    webhook_legacy:
+      url: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxxx
+      # Customize template content
+      #message:
+      #  # Use legacy template
+      #  title: '{{ template "legacy.title" . }}'
+      #  text: '{{ template "legacy.content" . }}'
+    webhook_mention_all:
+      url: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxxx
+      mention:
+      all: true
+    webhook_mention_user1:
+      url: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxxx
+      mention:
+      mobiles: ['156xxxx8827', '189xxxx8325']
+    webhook_mention_user2:
+      url: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxxx
+      mention:
+      mobiles: ['156xxxx8827', '189xxxx8325']
+  rules:
+    # 告警升级规则
+    escalation:
+      step_1:
+        notice: webhook_metion_user1
+        pending: 1h
+      step_2:
+        notice: webhook_metion_user2
+        pending: 2h
+      step_3:
+        notice: webhook_metion_user3
+        pending: 3h
