@@ -13,15 +13,16 @@ from utils.utils import utc_to_local
  
 
 class AlertManagerMessage:
+    """
+    """
     
     def __init__(self, alerts):
-        self.start_time = None
         self.alerts = alerts
 
     def get_alerts_start_time(self):
         """
-        获取alerts的最早触发时间
-        一组alerts可能会有多条告警,获取最早的触发时间
+        获取alerts的触发时间
+        一组alerts可能会有多条告警,获取其中最早的触发时间
         """
         start_time_dict = {}
         for alert in self.alerts.get("alerts"):
@@ -59,7 +60,7 @@ class AlertManagerMessage:
 
     def format_alerts_to_markdown(self):
         """
-        alerts转换成markdown格式
+        alerts消息转换成markdown格式
         """
         file_loader = FileSystemLoader('config')
         env = Environment(loader=file_loader)

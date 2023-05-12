@@ -46,13 +46,14 @@ async def send_dingtalk_alert(request, channel):
     alertnum = len(alerts.get("alerts"))
     escalation_rule = request.args.get('escalation')
     alerts_escalation_rule = None
+    alertmanager = AlertManagerMessage(alerts)
     if escalation_rule is not None:
         rule = app.config.rules.get("escalation").get(escalation_rule)
-        alerts_escalation_rule = AlertManagerMessage(alerts).get_alerts_escalation_rule(rule)
-        if alerts_escalation_rule:
-            channel = alerts_escalation_rule["channel"]
-            alerts["escalation"] = escalation_rule
-    msg = AlertManagerMessage(alerts).format_alerts_to_markdown()
+        alerts_escalation_rule = alertmanager.get_alerts_escalation_rule(rule)
+    if alerts_escalation_rule:
+        channel = alerts_escalation_rule["channel"]
+        alerts["escalation"] = escalation_rule
+    msg = alertmanager.format_alerts_to_markdown()
     url = app.config.media.get("dingtalk").get("channels").get(channel).get("url")
     secret  = app.config.media.get("dingtalk").get("channels").get(channel).get("secret")
     at_mobiles = app.config.media.get("dingtalk").get("channels").get(channel).get("at_mobiles")
