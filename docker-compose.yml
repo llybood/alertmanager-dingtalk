@@ -5,7 +5,9 @@ services:
     image: alertmanager-dingtalk:0.1
     container_name: alertmanager-dingtalk
     volumes:
-      - ./config:/app/alertmanager-dingtalk/config
+      - ./config/config.yaml:/app/alertmanager-dingtalk/config/config.yaml
+      - ./config/logging.yaml:/app/alertmanager-dingtalk/config/logging.yaml
+      - ./config/template.tmpl:/app/alertmanager-dingtalk/config/template.tmpl
     ports:
       - "8111:8111"
     restart: always
