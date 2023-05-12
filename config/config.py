@@ -8,27 +8,23 @@ import logging
 import yaml
 
 
+sanic_log = logging.getLogger("sanic.root")
+
 class Config:
-    """upgrade the config automatically while the config.ini file changed
-    Example Config.get_instance().get(key, default)
-    """
+    """Load global configuration files and log configuration files"""
 
     def __init__(self):
-        """initialize attributions of config class"""
-        logging.debug("init config ...")
         self.global_config_file_path =  os.path.join(os.path.dirname(__file__), "config.yaml")
         self.logging_config_file_path = os.path.join(os.path.dirname(__file__), "logging.yaml")
 
     def load_global_config(self):
-        """load the global config file"""
-        logging.info("loading global the config ...")
+        sanic_log.info(f"loading global config {self.global_config_file_path}")
         with open(file=self.global_config_file_path, mode="r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
         return config
 
     def load_logging_config(self):
-        """load the logging config file"""
-        logging.info("loading the logging config ...")
+        sanic_log.info(f"loading logging config {self.logging_config_file_path}")
         with open(file=self.logging_config_file_path, mode="r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
         return config

@@ -13,16 +13,18 @@ from utils.utils import utc_to_local
  
 
 class AlertManagerMessage:
-    """
-    """
+    """Handle alert information in alertmanager format."""
     
     def __init__(self, alerts):
+        """
+        :param alerts: Alert information in alertmanager format
+        """
         self.alerts = alerts
 
     def get_alerts_start_time(self):
         """
-        获取alerts的触发时间
-        一组alerts可能会有多条告警,获取其中最早的触发时间
+        Get the trigger time of alerts.
+        a group of alerts may have multiple alarms, get the earliest trigger time
         """
         start_time_dict = {}
         for alert in self.alerts.get("alerts"):
@@ -30,17 +32,23 @@ class AlertManagerMessage:
             start_timestamp = get_utc_timestamp(start_time)
             start_time_dict[start_time] = start_timestamp
         order_start_time = sorted(start_time_dict.items(), key=lambda x:x[1])
-        return order_start_time[0][0]
+        alerts_start_time = order_start_time[0][0]
+        return alerts_start_time
 
     def get_alerts_duration_time(self):
-        """
-        获取alerts的持续时间
-        """
+        """ Get the alerts duration in seconds """
         return get_diff_timestamp(self.get_alerts_start_time())
 
     def get_alerts_escalation_rule(self, escalation_rule):
         """
-        获取alerts告警升级规则,为空则返回None
+        Get the alerts escalation rules, return None if it is empty
+
+        The alerts, alerts duration time and the name of the rule in the global escalation rule,pending form an ordered dictionary.
+        Then sorted according to pending. The previous one of the alerts is the triggered escalation rule. 
+        If the subscript of the alerts index is 0, it means that it has not been triggered any escalation rules.
+
+        :return
+
         """
         alerts_escalation_status = collections.OrderedDict()
         alerts_escalation_status["alerts"] = self.get_alerts_duration_time()
@@ -59,11 +67,8 @@ class AlertManagerMessage:
         return escalation_rule[alerts_rule]
 
     def format_alerts_to_markdown(self):
-        """
-        alerts消息转换成markdown格式
-        """
-        file_loader = FileSystemLoader('config')
+        file_loader = FileSystemLoader("config")
         env = Environment(loader=file_loader)
-        env.filters['utc_to_local'] = utc_to_local
-        template = env.get_template('template.tmpl')
+        env.filters["utc_to_local"] = utc_to_local
+        template = env.get_template("template.tmpl")
         return template.render(alerts=self.alerts)

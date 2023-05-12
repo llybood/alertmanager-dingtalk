@@ -23,22 +23,20 @@ app.config.update(Config().load_global_config())
 
 alert_log = logging.getLogger("custom.alert")
 
-# 获取告警媒介配置
 @app.route("/media/list", methods=["GET"])
 async def get_media(request):
     return response.json(app.config.media)
 
-# 获取告警规则配置
 @app.route("/rules/list", methods=["GET"])
 async def get_rules(request):
     return response.json(app.config.rules)
 
-# 获取某个告警媒介下的通道配置
+# Get the channel configuration of a media
 @app.route("/media/<media:str>/list", methods=["GET"])
 async def get_channel(request, media):
     return response.json(app.config.media.get(media))
 
-# 根据配置的dingtalk告警通道发送告警
+# Send dingtalk alarm
 @app.route("/media/dingtalk/<channel:str>/send", methods=["POST"])
 async def send_dingtalk_alert(request, channel):
     alerts = request.json
