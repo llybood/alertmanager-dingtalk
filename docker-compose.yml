@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  alertmanager-dingtalk:
+    image: alertmanager-dingtalk:0.1
+    container_name: alertmanager-dingtalk
+    volumes:
+      - ./config:/app/alertmanager-dingtalk/config
+    ports:
+      - "8111:8111"
+    restart: always

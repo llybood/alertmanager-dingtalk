@@ -1,0 +1,38 @@
+{% set alertNum = alerts.alerts|selectattr("status", "equalto", "firing") | list | length %}
+{% if alertNum != 0 %}
+### **<font color=red>故障告警通知</font>** 
+{% if alerts.escalation %}
+**<font color=red>告警持续时间过长,触发升级策略,通知相关负责人,请及时处理</font>** 
+{% endif %}
+{% endif %}
+{% for alert in alerts.alerts|selectattr("status", "equalto", "firing") %}
+{% if alertNum != 1 %}
+* **<font color=blue>告警{{ loop.index }}</font>**
+{% endif %}
+**故障名称**: {{ alert.labels.alertname }}
+
+**故障级别**: {{ alert.labels.severity }}
+
+**故障时间**: {{ alert.startsAt | utc_to_local }}
+
+**故障描述**: {{ alert.annotations.description }}
+{% endfor %}
+
+{% set resolvedNum = alerts.alerts|selectattr("status", "equalto", "resolved") | list | length %}
+{% if resolvedNum != 0 %}
+### **<font color=green>故障恢复通知</font>** 
+{% endif %}
+{% for alert in alerts.alerts|selectattr("status", "equalto", "resolved") %}
+{% if resolvedNum != 1 %}
+* **<font color=blue>恢复详情{{ loop.index }}</font>**
+{% endif %}
+**故障类型**: {{ alert.labels.alertname }}
+
+**故障级别**: {{ alert.labels.severity }}
+
+**故障时间**: {{ alert.startsAt | utc_to_local }}
+
+**恢复时间**: {{ alert.endsAt | utc_to_local }}
+
+**故障描述**: {{ alert.annotations.description }}
+{% endfor %}

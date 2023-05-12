@@ -1,0 +1,66 @@
+version: 1 
+disable_existing_logers: False
+formatters:
+    access:
+        format: '%(asctime)s -- %(host)s %(request)s %(message)s %(status)d %(byte)d'
+        datefmt: '[%Y-%m-%d %H:%M:%S %z]'
+    verbose:
+        format: '%(asctime)s -- %(process)d %(levelname)s %(message)s'
+        datefmt: '[%Y-%m-%d %H:%M:%S %z]'
+    alert:
+        format: '%(asctime)s -- %(levelname)s %(message)s'
+        datefmt: '[%Y-%m-%d %H:%M:%S %z]'
+handlers:
+    console:
+        level: DEBUG
+        class: logging.StreamHandler
+        formatter: verbose
+    alert.console:
+        level: INFO
+        class: logging.StreamHandler
+        formatter: alert
+    server:
+        level: DEBUG
+        class: logging.handlers.TimedRotatingFileHandler
+        formatter: verbose
+        filename: logs/server.log
+        when: MIDNIGHT
+        backupCount: 10
+    error:
+        level: ERROR
+        class: logging.handlers.TimedRotatingFileHandler
+        formatter: verbose
+        filename: logs/error.log
+        when: MIDNIGHT
+        backupCount: 10
+    access:
+        level: INFO
+        class: logging.handlers.TimedRotatingFileHandler
+        formatter: access
+        filename: logs/access.log
+        when: MIDNIGHT
+        backupCount: 10
+    alert:
+        level: INFO
+        class: logging.handlers.TimedRotatingFileHandler
+        formatter: alert
+        filename: logs/alert.log
+        when: MIDNIGHT
+        backupCount: 10
+loggers:
+    sanic.root:
+        handlers: [console, server]
+        propagate: False
+        level: INFO
+    sanic.access:
+        handlers: [access]
+        propagate: False
+        level: INFO
+    sanic.error:
+        handlers: [console, error]
+        propagate: False
+        level: ERROR
+    custom.alert:
+        handlers: [alert.console, alert]
+        propagate: False
+        level: INFO
