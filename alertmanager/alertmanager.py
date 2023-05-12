@@ -47,8 +47,6 @@ class AlertManagerMessage:
         Then sorted according to pending. The previous one of the alerts is the triggered escalation rule. 
         If the subscript of the alerts index is 0, it means that it has not been triggered any escalation rules.
 
-        :return
-
         """
         alerts_escalation_status = collections.OrderedDict()
         alerts_escalation_status["alerts"] = self.get_alerts_duration_time()
