@@ -5,7 +5,9 @@
 
 from dingtalkchatbot.chatbot import DingtalkChatbot
 
+
 class Dingtalk: 
+
     def __init__(self, url=None, secret=None, at_mobiles=None, is_at_all=None, msg=None):
         self.url = url
         self.secret = secret

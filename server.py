@@ -14,6 +14,7 @@ from config.config import Config
 from alertmanager.alertmanager import AlertManagerMessage
 from dingtalk.dingtalk import Dingtalk
 
+
 if not os.path.exists("logs"):
     os.makedirs("logs")
 

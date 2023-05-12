@@ -11,6 +11,7 @@ from utils.utils import get_utc_timestamp
 from utils.utils import escalation_time_to_seconds
 from utils.utils import utc_to_local
  
+
 class AlertManagerMessage:
     
     def __init__(self, alerts):

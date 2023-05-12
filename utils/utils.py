@@ -7,6 +7,7 @@ import re
 import datetime
 import time
 
+
 def validate_escalation_time(escalation_time):
     pattern = re.compile(r'^[0-9]+(h|hours|s|seconds|m|minutes)*$')
     if not pattern.match(str(escalation_time)):
