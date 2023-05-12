@@ -8,7 +8,7 @@ import logging
 import os
 
 from sanic.log import logger
-from sanic import Sanic, response, json
+from sanic import Sanic, response
 
 from config.config import Config
 from alertmanager.alertmanager import AlertManagerMessage
