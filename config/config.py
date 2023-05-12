@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-# @Time    : 2020/12/18 下午3:25
-# @Author  : lovemefan
-# @File    : config.py
+# @Time    : 2023/5/12 15:08
+# @Author  : llybood
 
 import os
 import logging
@@ -33,4 +32,3 @@ class Config:
         with open(file=self.logging_config_file_path, mode="r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
         return config
-

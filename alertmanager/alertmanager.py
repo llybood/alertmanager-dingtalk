@@ -1,6 +1,6 @@
-#!/usr/local/python381/bin/python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-# @Time    : 2022/11/1 10:58
+# @Time    : 2023/5/12 10:58
 # @Author  : llybood
 
 import collections
@@ -35,7 +35,6 @@ class AlertManagerMessage:
         获取alerts的持续时间
         """
         return get_diff_timestamp(self.get_alerts_start_time())
-
 
     def get_alerts_escalation_rule(self, escalation_rule):
         """

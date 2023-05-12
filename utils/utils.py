@@ -1,6 +1,6 @@
-#!/usr/local/python381/bin/python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-# @Time    : 2022/11/1 10:58
+# @Time    : 2023/5/12 13:58
 # @Author  : llybood
 
 import re
