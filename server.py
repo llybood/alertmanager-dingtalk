@@ -49,7 +49,7 @@ async def send_dingtalk_alert(request, channel):
         rule = app.config.rules.get("escalation").get(escalation_rule)
         alerts_escalation_rule = alertmanager.get_alerts_escalation_rule(rule)
     if alerts_escalation_rule:
-        channel = alerts_escalation_rule["channel"]
+        channel = rule.get(alerts_escalation_rule).get("channel")
         alerts["escalation"] = escalation_rule
     msg = alertmanager.format_alerts_to_markdown()
     url = app.config.media.get("dingtalk").get("channels").get(channel).get("url")
@@ -57,12 +57,13 @@ async def send_dingtalk_alert(request, channel):
     at_mobiles = app.config.media.get("dingtalk").get("channels").get(channel).get("at_mobiles")
     is_at_all = app.config.media.get("dingtalk").get("channels").get(channel).get("is_at_all")
     result = Dingtalk(url=url, secret=secret, at_mobiles=at_mobiles, is_at_all=is_at_all, msg=msg).send()
-    alert_log.info(f'{request.ip} {request.method} {request.url} {alertname} {alertnum} dingtalk {alerts_escalation_rule} {channel} {result}')
+    alert_log.info(f'{request.ip} {request.method} {request.url} {alertname} {alertnum} dingtalk {escalation_rule} {alerts_escalation_rule} {channel} {result}')
     return response.json(result)
 
-if __name__ == '__main__': 
+if __name__ == "__main__": 
     host = app.config.server.get("listen")
     port = app.config.server.get("port")
     workers = app.config.server.get("workers")
     access_log = app.config.server.get("access_log")
+    logger.info(f"alertmanager-dingtalk is start on {host}:{port}")
     app.run(host=host, port=port, workers=workers, access_log=access_log)

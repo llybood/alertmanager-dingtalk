@@ -53,16 +53,16 @@ class AlertManagerMessage:
         for k,v in escalation_rule.items():
             alerts_escalation_status[k] = escalation_time_to_seconds(v["pending"])
         alerts_escalation_status = dict(sorted(alerts_escalation_status.items(), key=lambda x:x[1]))
-        alerts_escalation_list = []
+        alerts_with_escalation_list = []
         for k,v in alerts_escalation_status.items():
-            alerts_escalation_list.append(k)
-        alerts_index = alerts_escalation_list.index("alerts")
+            alerts_with_escalation_list.append(k)
+        alerts_index = alerts_with_escalation_list.index("alerts")
         if alerts_index == 0:
             return None
         else:
-            alerts_rule_index = int(alerts_index - 1)
-            alerts_rule = alerts_escalation_list[alerts_rule_index]
-        return escalation_rule[alerts_rule]
+            alerts_escalation_rule_index = int(alerts_index - 1)
+            alerts_escalation_rule = alerts_with_escalation_list[alerts_escalation_rule_index]
+        return alerts_escalation_rule
 
     def format_alerts_to_markdown(self):
         file_loader = FileSystemLoader("config")
