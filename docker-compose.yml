@@ -2,7 +2,7 @@ version: "3"
 
 services:
   alertmanager-dingtalk:
-    image: alertmanager-dingtalk:0.1
+    image: llybood/alertmanager-dingtalk:latest
     container_name: alertmanager-dingtalk
     volumes:
       - ./config/config.yaml:/app/alertmanager-dingtalk/config/config.yaml
