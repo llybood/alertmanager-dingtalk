@@ -14,7 +14,7 @@
 ```
 git clone https://github.com/llybood/alertmanager-dingtalk.git
 ```
-> 或在 [Release](https://github.com/llybood/calertmanager-dingtalk/releases) 直接手动下载源码。
+> 或在**Release**直接手动下载源码。
 
 3. 安装依赖
 ```
@@ -32,7 +32,7 @@ nohup python3 server.py &
 ```
 git clone https://github.com/llybood/alertmanager-dingtalk.git
 ```
-> 或在 [Release](https://github.com/llybood/alertmanager-dingtalk/releases) 直接手动下载源码。
+> 或在**Release**直接下载源码。
 2. 启动服务
 ```
 docker-compose up -d
