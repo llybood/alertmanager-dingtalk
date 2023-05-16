@@ -4,12 +4,12 @@
 # @Author  : llybood
 
 import collections
-from jinja2 import Environment, FileSystemLoader
 
 from utils.utils import get_diff_timestamp
 from utils.utils import get_utc_timestamp
 from utils.utils import escalation_time_to_seconds
 from utils.utils import utc_to_local
+from template.template import MessageTemplate
  
 
 class AlertManagerMessage:
@@ -65,8 +65,5 @@ class AlertManagerMessage:
         return alerts_escalation_rule
 
     def format_alerts_to_markdown(self):
-        file_loader = FileSystemLoader("config")
-        env = Environment(loader=file_loader)
-        env.filters["utc_to_local"] = utc_to_local
-        template = env.get_template("template.tmpl")
+        template = MessageTemplate("template").get_template()
         return template.render(alerts=self.alerts)
